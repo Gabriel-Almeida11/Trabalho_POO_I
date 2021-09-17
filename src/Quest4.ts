@@ -1,7 +1,7 @@
 class ImpostoDeRenda{
     constructor(
-        protected _nome:string,
-        protected _rendaAnual:number
+        private _nome:string,
+        private _rendaAnual:number
     ){ }
 
     get nome(){
@@ -13,7 +13,7 @@ class ImpostoDeRenda{
     }
 
     set nome(nome:string){
-        if(nome = ''){
+        if(nome === ''){
             throw new Error('Nome inválido')
         }
 
@@ -33,32 +33,39 @@ class PessoaFisica extends ImpostoDeRenda{
     constructor(
         nome:string,
         rendaAnual:number,
-        protected _gastosSaude:number
+       private _gastosComSaude:number
     ){ super(nome,rendaAnual) }
     
     get gastosComSaude(){
-        return this._gastosSaude
+        return this._gastosComSaude
     }
     
-    set gastosSaude(gastosSaude:number){
-        this._gastosSaude = gastosSaude
+    set gastosComSaude(gastosComSaude:number){
+            if(gastosComSaude < 0){
+
+                throw new Error('Favor inserir gastos maiores do que 0')
+            }
+        this._gastosComSaude = gastosComSaude 
+
     }
 
     public calcImpostoDeRendaPF(){
         if(this.rendaAnual < 20000){
             return this.rendaAnual * 0.15
-        }else if(this.rendaAnual >=2000 && this.gastosSaude == 0){
-            return this.rendaAnual * 0.25
-        }else if(this.rendaAnual >=2000 && this.gastosSaude != 0){
-            return (
-                (this.rendaAnual * 0.25) - 
-                (this.gastosSaude * 0.5)
-            )
-        }
+        }else (this.rendaAnual >=2000)
+            return this.rendaAnual * 0.25    
+        
+    }
+
+    public impostoSaude(){
+        if(this.gastosComSaude > 0){
+            return this.gastosComSaude * 0.5
+        }else 
+            return this.gastosComSaude 
     }
 
     public message(){
-        return `O imposto de renda do(a) ${this.nome}, é de R$${this.calcImpostoDeRendaPF()}`
+        return `O imposto de renda do(a) ${this.nome}, é de R$${this.calcImpostoDeRendaPF() - this.impostoSaude()}`
     } 
 }
 
@@ -66,15 +73,15 @@ class PessoaJuridica extends ImpostoDeRenda{
     constructor(
         nome:string,
         rendaAnual:number,
-        protected _numFuncionarios:number
+      public _numFuncionarios:number
     ){ super(nome,rendaAnual) }
 
     get numFuncionarios(){
         return this._numFuncionarios
     }
     
-    set gastosComSaude(numFuncionarios:number){
-        if(numFuncionarios == 0){
+    set numFuncionarios(numFuncionarios:number){
+        if(numFuncionarios <= 0){
             throw new Error('Favor inserir quantidade de funcionarios válida.')
         }
         this._numFuncionarios = numFuncionarios
@@ -83,31 +90,39 @@ class PessoaJuridica extends ImpostoDeRenda{
     public calcImpostoRendaPJ(){
         if(this.numFuncionarios <= 10 ){
             return  this.rendaAnual * 0.16
-        }else if(this.numFuncionarios >=10){
+        }else
             return this.rendaAnual * 0.14
-        }
+        
     }
 
-    public message(){
-        return `O imposto da empresa ${this.nome} é de R$${this.calcImpostoRendaPJ()}`
-    } 
+ 
 }
 
-let p = new PessoaFisica('Zeca',0, 6000)
-console.log(p)
-console.log(p.message())
-
-try{
-
-}catch(error:any){
-    console.log(error.message)
-}
+let p = new PessoaFisica('Zeca', 600, 300)
 
 let empresa = new PessoaJuridica('Pichau', 750000, 10)
-console.log(empresa)
-console.log(empresa.message())
 
 try{
+    // p.nome='Zeca'
+    // p.rendaAnual= 6000
+    // p.gastosComSaude= 200
+
+
+    // console.log(p)
+    // console.log(p.message())
+
+    
+    
+    
+    empresa.nome= 'Terabyte'
+    empresa.rendaAnual= 800000
+    empresa.numFuncionarios= 20
+
+    console.log(empresa)
+    console.log(empresa.calcImpostoRendaPJ().toFixed(2))
+
+
+
 
 }catch(error:any){
     console.log(error.message)

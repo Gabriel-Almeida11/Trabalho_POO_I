@@ -36,7 +36,7 @@ var Pessoa = /** @class */ (function () {
             return this._idade;
         },
         set: function (idade) {
-            if (idade == 0) {
+            if (idade <= 0) {
                 throw new Error('Insira uma idade válida');
             }
             this._idade = idade;
@@ -57,6 +57,13 @@ var Pessoa = /** @class */ (function () {
 var p1 = new Pessoa('João', 'Masculino', 15);
 console.log(p1);
 console.log(p1.idadeValidation());
-var p2 = new Pessoa('Maria', 'Feminino', 25);
-console.log(p2);
-console.log(p2.idadeValidation());
+try {
+    p1.nome = 'Gabriel';
+    p1.sexo = 'Masculino';
+    p1.idade = 20;
+    console.log(p1);
+    console.log(p1.idadeValidation());
+}
+catch (error) {
+    console.log(error.message);
+}

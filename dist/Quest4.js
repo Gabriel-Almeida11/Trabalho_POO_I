@@ -24,7 +24,7 @@ var ImpostoDeRenda = /** @class */ (function () {
             return this._nome;
         },
         set: function (nome) {
-            if (nome = '') {
+            if (nome === '') {
                 throw new Error('Nome inválido');
             }
             this._nome = nome;
@@ -49,21 +49,20 @@ var ImpostoDeRenda = /** @class */ (function () {
 }());
 var PessoaFisica = /** @class */ (function (_super) {
     __extends(PessoaFisica, _super);
-    function PessoaFisica(nome, rendaAnual, _gastosSaude) {
+    function PessoaFisica(nome, rendaAnual, _gastosComSaude) {
         var _this = _super.call(this, nome, rendaAnual) || this;
-        _this._gastosSaude = _gastosSaude;
+        _this._gastosComSaude = _gastosComSaude;
         return _this;
     }
     Object.defineProperty(PessoaFisica.prototype, "gastosComSaude", {
         get: function () {
-            return this._gastosSaude;
+            return this._gastosComSaude;
         },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(PessoaFisica.prototype, "gastosSaude", {
-        set: function (gastosSaude) {
-            this._gastosSaude = gastosSaude;
+        set: function (gastosComSaude) {
+            if (gastosComSaude < 0) {
+                throw new Error('Favor inserir gastos maiores do que 0');
+            }
+            this._gastosComSaude = gastosComSaude;
         },
         enumerable: false,
         configurable: true
@@ -72,16 +71,19 @@ var PessoaFisica = /** @class */ (function (_super) {
         if (this.rendaAnual < 20000) {
             return this.rendaAnual * 0.15;
         }
-        else if (this.rendaAnual >= 2000 && this.gastosSaude == 0) {
-            return this.rendaAnual * 0.25;
+        else
+            (this.rendaAnual >= 2000);
+        return this.rendaAnual * 0.25;
+    };
+    PessoaFisica.prototype.impostoSaude = function () {
+        if (this.gastosComSaude > 0) {
+            return this.gastosComSaude * 0.5;
         }
-        else if (this.rendaAnual >= 2000 && this.gastosSaude != 0) {
-            return ((this.rendaAnual * 0.25) -
-                (this.gastosSaude * 0.5));
-        }
+        else
+            return this.gastosComSaude;
     };
     PessoaFisica.prototype.message = function () {
-        return "O imposto de renda do(a) " + this.nome + ", \u00E9 de R$" + this.calcImpostoDeRendaPF();
+        return "O imposto de renda do(a) " + this.nome + ", \u00E9 de R$" + (this.calcImpostoDeRendaPF() - this.impostoSaude());
     };
     return PessoaFisica;
 }(ImpostoDeRenda));
@@ -96,12 +98,8 @@ var PessoaJuridica = /** @class */ (function (_super) {
         get: function () {
             return this._numFuncionarios;
         },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(PessoaJuridica.prototype, "gastosComSaude", {
         set: function (numFuncionarios) {
-            if (numFuncionarios == 0) {
+            if (numFuncionarios <= 0) {
                 throw new Error('Favor inserir quantidade de funcionarios válida.');
             }
             this._numFuncionarios = numFuncionarios;
@@ -113,27 +111,24 @@ var PessoaJuridica = /** @class */ (function (_super) {
         if (this.numFuncionarios <= 10) {
             return this.rendaAnual * 0.16;
         }
-        else if (this.numFuncionarios >= 10) {
+        else
             return this.rendaAnual * 0.14;
-        }
-    };
-    PessoaJuridica.prototype.message = function () {
-        return "O imposto da empresa " + this.nome + " \u00E9 de R$" + this.calcImpostoRendaPJ();
     };
     return PessoaJuridica;
 }(ImpostoDeRenda));
-var p = new PessoaFisica('Zeca', 0, 6000);
-console.log(p);
-console.log(p.message());
-try {
-}
-catch (error) {
-    console.log(error.message);
-}
+var p = new PessoaFisica('Zeca', 600, 300);
 var empresa = new PessoaJuridica('Pichau', 750000, 10);
-console.log(empresa);
-console.log(empresa.message());
 try {
+    // p.nome='Zeca'
+    // p.rendaAnual= 6000
+    // p.gastosComSaude= 200
+    // console.log(p)
+    // console.log(p.message())
+    empresa.nome = 'Terabyte';
+    empresa.rendaAnual = 800000;
+    empresa.numFuncionarios = 20;
+    console.log(empresa);
+    console.log(empresa.calcImpostoRendaPJ().toFixed(2));
 }
 catch (error) {
     console.log(error.message);

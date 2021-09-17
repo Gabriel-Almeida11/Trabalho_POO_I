@@ -46,5 +46,12 @@ class Fatura{
 }
 
 let f = new Fatura(537, 'Doce de Leite', 2, 15)
-console.log(f)
-console.log(f.fatura())
+
+try{
+    
+   console.log(f)
+   console.log(f.fatura())
+
+}catch(error:any){
+    console.log(error.message)
+}

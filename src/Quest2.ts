@@ -2,7 +2,7 @@ class Veiculos{
     constructor(
         private _modelo:string,
         private _marca:string,
-        private _ano:string,
+        private _ano:number,
         private _valorLocacao:number,
         private _quantidadeDias:number
     ){ }
@@ -33,31 +33,39 @@ class Veiculos{
             throw new Error('Modelo inválido')
         }
 
-        this.modelo = modelo
+        this._modelo = modelo
     }
 
     set marca(marca:string){
         if(marca == ''){
             throw new Error('Marca inválida')
         }
+
+        this._marca = marca
     }
 
-    set ano(ano:string){
-        if(ano == ''){
+    set ano(ano:number){
+        if(ano == 0){
             throw new Error('Formato de ano inválido')
         }
+
+        this._ano= ano
     }
     
     set valorLocacao(valorLocacao:number){
         if(valorLocacao <= 0){
             throw new Error('Valor inserido tem que ser maior que 0')
         }
+
+        this._valorLocacao= valorLocacao
     }
     
     set quantidadeDias(quantidadeDias:number){
         if(quantidadeDias <= 0){
             throw new Error('Número de dias tem que ser maior que 0')
         }
+
+        this._quantidadeDias= quantidadeDias
     }
 
     public passeio(){
@@ -65,7 +73,21 @@ class Veiculos{
     }
 }
 
-const veiculo = new Veiculos('SEDÃ', 'BMW', '05/08/2018', 900, 10)
+const veiculo = new Veiculos('SEDÃ', 'BMW', 2018, 900, 10)
 
-console.log(veiculo)
-console.log(veiculo.passeio())
+
+
+try{
+    veiculo.modelo='Esportivo'
+    veiculo.marca='volkswagen'
+    veiculo.ano = 2016
+    veiculo.valorLocacao= 300
+    veiculo.quantidadeDias= 4
+    
+    console.log(veiculo)
+    console.log(veiculo.passeio())
+    
+
+}catch(error:any){
+    console.log(error.message)
+}

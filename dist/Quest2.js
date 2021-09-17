@@ -15,7 +15,7 @@ var Veiculos = /** @class */ (function () {
             if (modelo == '') {
                 throw new Error('Modelo inválido');
             }
-            this.modelo = modelo;
+            this._modelo = modelo;
         },
         enumerable: false,
         configurable: true
@@ -28,6 +28,7 @@ var Veiculos = /** @class */ (function () {
             if (marca == '') {
                 throw new Error('Marca inválida');
             }
+            this._marca = marca;
         },
         enumerable: false,
         configurable: true
@@ -37,9 +38,10 @@ var Veiculos = /** @class */ (function () {
             return this._ano;
         },
         set: function (ano) {
-            if (ano == '') {
+            if (ano == 0) {
                 throw new Error('Formato de ano inválido');
             }
+            this._ano = ano;
         },
         enumerable: false,
         configurable: true
@@ -52,6 +54,7 @@ var Veiculos = /** @class */ (function () {
             if (valorLocacao <= 0) {
                 throw new Error('Valor inserido tem que ser maior que 0');
             }
+            this._valorLocacao = valorLocacao;
         },
         enumerable: false,
         configurable: true
@@ -64,6 +67,7 @@ var Veiculos = /** @class */ (function () {
             if (quantidadeDias <= 0) {
                 throw new Error('Número de dias tem que ser maior que 0');
             }
+            this._quantidadeDias = quantidadeDias;
         },
         enumerable: false,
         configurable: true
@@ -73,6 +77,16 @@ var Veiculos = /** @class */ (function () {
     };
     return Veiculos;
 }());
-var veiculo = new Veiculos('SEDÃ', 'BMW', '05/08/2018', 900, 10);
-console.log(veiculo);
-console.log(veiculo.passeio());
+var veiculo = new Veiculos('SEDÃ', 'BMW', 2018, 900, 10);
+try {
+    veiculo.modelo = 'Esportivo';
+    veiculo.marca = 'volkswagen';
+    veiculo.ano = 2016;
+    veiculo.valorLocacao = 300;
+    veiculo.quantidadeDias = 4;
+    console.log(veiculo);
+    console.log(veiculo.passeio());
+}
+catch (error) {
+    console.log(error.message);
+}

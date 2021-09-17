@@ -35,7 +35,7 @@ class Pessoa{
     }
 
     set idade(idade:number){
-        if(idade == 0){
+        if(idade <= 0){
             throw new Error('Insira uma idade válida')
         }
         
@@ -56,8 +56,15 @@ let p1 = new Pessoa('João', 'Masculino', 15);
 console.log(p1)
 console.log(p1.idadeValidation())
 
-let p2 = new Pessoa('Maria', 'Feminino', 25);
-console.log(p2)
-console.log(p2.idadeValidation())
 
+try{
+    p1.nome = 'Gabriel'
+    p1.sexo = 'Masculino'
+    p1.idade = 20
 
+    console.log(p1)
+    console.log(p1.idadeValidation())
+   
+}catch(error:any){
+    console.log(error.message)
+}

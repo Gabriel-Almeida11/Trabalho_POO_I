@@ -105,7 +105,7 @@ var VendedorDePessoaFisica = /** @class */ (function (_super) {
         return this.comissaoVendedor();
     };
     VendedorDePessoaFisica.prototype.salTot = function () {
-        return (this.salario - this.desconto()) + this.comissaoVendedor();
+        return this.salario + this.comissaoVendedor();
     };
     return VendedorDePessoaFisica;
 }(Vendedores));
@@ -134,15 +134,11 @@ var PJ = /** @class */ (function (_super) {
         get: function () {
             return this._Funcionarios;
         },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(PJ.prototype, "totFunc", {
-        set: function (totFunc) {
-            if (totFunc <= 0) {
+        set: function (Funcionarios) {
+            if (Funcionarios <= 0) {
                 throw new Error('Total de funcionários não pode ser 0');
             }
-            this._Funcionarios = totFunc;
+            this._Funcionarios = Funcionarios;
         },
         enumerable: false,
         configurable: true
@@ -154,13 +150,11 @@ var PJ = /** @class */ (function (_super) {
         else if (this.valorVenda >= 5000 && this.valorVenda < 10000) {
             return this.valorVenda * 0.04;
         }
-        else if (this.valorVenda >= 10000) {
+        else
             return this.valorVenda * 0.06;
-        }
-        return this.comissaoEmpresa();
     };
     PJ.prototype.salTotEmp = function () {
-        if (this.totFunc < 100) {
+        if (this.Funcionarios < 100) {
             return this.salario + this.comissaoEmpresa() + 200;
         }
         else {
@@ -170,5 +164,22 @@ var PJ = /** @class */ (function (_super) {
     return PJ;
 }(Vendedores));
 var pessoa2 = new VendedorDePessoaFisica('José', 6000, 300, 'Sudeste');
-console.log(pessoa2.comissaoVendedor());
-console.log(pessoa2.salTot());
+var e = new PJ('Maria', 2000, 600, 'Mitsubishi', 20);
+try {
+    // pessoa2.nome='João'
+    // pessoa2.salario= 3000
+    // pessoa2.valorVenda= 300
+    // pessoa2.regiao='Sul'
+    // console.log(pessoa2)
+    // console.log(pessoa2.salTot())
+    e.nome = 'Alex';
+    e.salario = 10000;
+    e.valorVenda = 5000;
+    e.nomeEmpresa = 'Pichau';
+    e.Funcionarios = 300;
+    console.log(e);
+    console.log(e.salTotEmp());
+}
+catch (error) {
+    console.log(error.message);
+}

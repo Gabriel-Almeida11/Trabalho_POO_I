@@ -52,5 +52,10 @@ var Fatura = /** @class */ (function () {
     return Fatura;
 }());
 var f = new Fatura(537, 'Doce de Leite', 2, 15);
-console.log(f);
-console.log(f.fatura());
+try {
+    console.log(f);
+    console.log(f.fatura());
+}
+catch (error) {
+    console.log(error.message);
+}

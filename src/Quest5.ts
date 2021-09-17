@@ -82,7 +82,7 @@ class VendedorDePessoaFisica extends Vendedores{
     }
 
     public salTot(){
-        return (this.salario - this.desconto()) + this.comissaoVendedor() 
+        return this.salario + this.comissaoVendedor() 
     }
 }
 
@@ -111,11 +111,11 @@ class PJ extends Vendedores{
         this._nomeEmpresa = nomeEmpresa
     }
 
-    set totFunc(totFunc:number){
-        if(totFunc <=0){
+    set Funcionarios(Funcionarios:number){
+        if(Funcionarios <=0){
             throw new Error('Total de funcionários não pode ser 0')
         }
-        this._Funcionarios = totFunc
+        this._Funcionarios = Funcionarios
     }
 
     public comissaoEmpresa():number{
@@ -123,15 +123,15 @@ class PJ extends Vendedores{
             return this.valorVenda * 0.02
         }else if(this.valorVenda >= 5000 && this.valorVenda < 10000){
             return this.valorVenda * 0.04
-        }else if(this.valorVenda >= 10000){
+        }else
             return this.valorVenda * 0.06
-        }
-
-        return this.comissaoEmpresa()
+        
     }
+    
+    
 
     public salTotEmp(){
-        if(this.totFunc < 100){
+        if(this.Funcionarios < 100){
             return this.salario + this.comissaoEmpresa() + 200
         }else {
             return this.salario + this.comissaoEmpresa() + 300
@@ -141,5 +141,28 @@ class PJ extends Vendedores{
 }
 
 let pessoa2 = new VendedorDePessoaFisica('José',6000, 300,'Sudeste')
-console.log(pessoa2.comissaoVendedor())
-console.log(pessoa2.salTot())
+
+let e = new PJ ('Maria', 2000, 600, 'Mitsubishi', 20 )
+
+try{
+    // pessoa2.nome='João'
+    // pessoa2.salario= 3000
+    // pessoa2.valorVenda= 300
+    // pessoa2.regiao='Sul'
+    
+    // console.log(pessoa2)
+    // console.log(pessoa2.salTot())
+
+    e.nome='Alex'
+    e.salario= 10000
+    e.valorVenda= 5000
+    e.nomeEmpresa= 'Pichau'
+    e.Funcionarios= 300
+
+    console.log(e)
+    console.log(e.salTotEmp())
+
+
+ }catch(error:any){
+     console.log(error.message)
+ }
